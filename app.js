@@ -89,6 +89,23 @@ app.get("/", async (req, res) => {
     res.status(500).json({ error: "Failure in processing email search" });
   }
 });
+app.get("/check", async (req, res) => {
+  try {
+    const invite = req.query.invite;
+    if (!invite) {
+      return res
+        .status(400)
+        .json({ error: "Invite ID is required in the query parameter." });
+    }
+    const parent = await Parent.findOne({ _id: invite });
+    if (parent) {
+      return res.status(200).json(parent);
+    }
+    return res.status(501).json({ error: "Invitation invalid" });
+  } catch (error) {
+    res.status(500).json({ error: "Failure in processing INVITE search" });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
