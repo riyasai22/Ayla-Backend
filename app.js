@@ -32,6 +32,7 @@ const parentSchema = new mongoose.Schema({
   name: String,
   email: String,
   phone: String,
+  attended: { type: Boolean, default: false },
   children: [
     {
       name: String,
